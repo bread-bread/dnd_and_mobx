@@ -5,18 +5,24 @@ import Toolbar from './UI/Toolbar';
 import Canvas from './UI/Canvas';
 import { DndProvider } from 'react-dnd';
 import HTML5backend from 'react-dnd-html5-backend';
-import GlobalContext from './ctx/GlobalContext';
+import { Provider } from 'mobx-react';
+import ElementsStore from './ctx/ElementsStore';
+import { configure } from 'mobx';
+
+const store = new ElementsStore();
+
+configure({ enforceActions: 'always' });
 
 class App extends React.Component {
     render() {
         return (
           <>
             <DndProvider backend={HTML5backend}>
-                <GlobalContext>
+                <Provider store={store}>
                     <Toolbar />
                     <Canvas />
                     <Global />
-                </GlobalContext>
+                </Provider>
             </DndProvider>
           </>  
         );

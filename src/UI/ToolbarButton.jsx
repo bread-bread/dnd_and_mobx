@@ -6,6 +6,7 @@ import { Ctx } from '../ctx/GlobalContext';
 import Circle from '../models/Circle';
 import Rect from '../models/Rect';
 import Point from '../models/Point';
+import { inject } from 'mobx-react';
 
 export const CIRCLE = 'circle';
 export const RECT = 'rect';
@@ -16,8 +17,7 @@ const elementsMap = {
 
 };
 
-const ToolbarButton = ({ type }) => {
-    const ctx = React.useContext(Ctx);
+const ToolbarButton = ({ type, store }) => {
     const [ { isDragging }, drag ] = useDrag({
         item: { type: ItemTypes.figure },
         collect: monitor => ({
@@ -30,7 +30,7 @@ const ToolbarButton = ({ type }) => {
                 offset.y
             );
 
-            ctx.setDragging(new elementsMap[type](initCoord));
+            store.setDragging(new elementsMap[type](initCoord));
         }
     });
 
@@ -64,4 +64,4 @@ const ToolbarButton = ({ type }) => {
     );
 };
 
-export default ToolbarButton;
+export default inject('store')(ToolbarButton);
