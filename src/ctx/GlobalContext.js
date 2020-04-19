@@ -1,38 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export const Ctx = React.createContext();
 
-export default class GlobalContext extends React.Component {
-    state = {
-        elements: [],
-        draggingElem: null
-    }
+const GlobalProvider = ({ children }) => {
+    const [ elements, setElements ] = useState([]);
+    const [ draggingElem, setDragging ] = useState(null);
 
-    addElement = element => {
-        this.setState(state => ({
-            elements: [ ...state.elements, element ]
-        }))
-    }
+    const addElement = elem => setElements([ ...elements, elem ]);
 
-    setDragging = element => {
-        this.setState({
-            draggingElem: element
-        });
-    }
-
-    render() {
-        const { children } = this.props;
-        const { elements, draggingElem } = this.state;
-
-        return (
-            <Ctx.Provider value={{
-                elements,
-                draggingElem,
-                setDragging: this.setDragging,
-                addElement: this.addElement
-            }}>
-                {children}
-            </Ctx.Provider>
-        );
-    }
+    return (
+        <Ctx.Provider value={{
+            elements,
+            draggingElem,
+            setDragging,
+            addElement
+        }}>
+            {children}
+        </Ctx.Provider>
+    );
 }
+
+export default GlobalProvider;

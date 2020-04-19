@@ -6,7 +6,7 @@ const StyledButton = styled.div`
     transition: background 150ms ease;
     margin-top: 8px;
     display: flex;
-    cursor: pointer;
+    cursor: grab;
     padding: 6px;
     border-radius: 6px;
     &:hover {

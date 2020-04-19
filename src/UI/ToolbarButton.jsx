@@ -1,12 +1,14 @@
 import React from 'react';
 import StyledButton from './StyledButton';
-import { useDrag } from 'react-dnd';
+import { useDrag, DragPreviewImage } from 'react-dnd';
 import { ItemTypes } from './Toolbar';
 import { Ctx } from '../ctx/GlobalContext';
 import Circle from '../models/Circle';
 import Rect from '../models/Rect';
 import Point from '../models/Point';
 import { inject } from 'mobx-react';
+
+import image from '../circle.png';
 
 export const CIRCLE = 'circle';
 export const RECT = 'rect';
@@ -18,7 +20,7 @@ const elementsMap = {
 };
 
 const ToolbarButton = ({ type, store }) => {
-    const [ { isDragging }, drag ] = useDrag({
+    const [ { isDragging }, drag, preview ] = useDrag({
         item: { type: ItemTypes.figure },
         collect: monitor => ({
             isDragging: !!monitor.isDragging()
@@ -36,6 +38,10 @@ const ToolbarButton = ({ type, store }) => {
 
     return (
         <StyledButton ref={drag}>
+            {
+                type === CIRCLE &&
+                <DragPreviewImage connect={preview} src={image} />
+            }
             {
                 type === CIRCLE &&
                     <div

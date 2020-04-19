@@ -6,18 +6,18 @@ class ElementsStore {
     @observable draggingElem = null;
 
     constructor() {
-        autorun(() => {
+        const disposer = autorun(() => {
             if (this.draggingElem) console.log('%c%s', 'color: grey; font: 1.2rem/1 Tahoma;', `autorun-type: ${this.draggingElem.type}`);
         });
 
         when(
             () => this.draggingElem && this.draggingElem.type === 'circle',
-            () => console.log('%c%s', 'color: blue; font: 1.2rem/1 Tahoma;', 'when: First time create circle')
+            () => console.log('%c%s', 'color: yellow; font: 1.2rem/1 Tahoma;', 'when: First time create circle')
         );
 
         reaction(
             () => this.elements.length,
-            () => console.log('%c%s', 'color: green; font: 1.2rem/1 Tahoma;', 'Reaction')
+            (length) => console.log('%c%s', 'color: green; font: 1.2rem/1 Tahoma;', 'Reaction: ', length)
             
         )
     }
