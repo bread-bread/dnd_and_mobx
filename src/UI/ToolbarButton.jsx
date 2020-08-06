@@ -2,7 +2,6 @@ import React from 'react';
 import StyledButton from './StyledButton';
 import { useDrag, DragPreviewImage } from 'react-dnd';
 import { ItemTypes } from './Toolbar';
-import { Ctx } from '../ctx/GlobalContext';
 import Circle from '../models/Circle';
 import Rect from '../models/Rect';
 import Point from '../models/Point';
@@ -21,9 +20,10 @@ const elementsMap = {
 
 const ToolbarButton = ({ type, store }) => {
     const [ { isDragging }, drag, preview ] = useDrag({
-        item: { type: ItemTypes.figure },
+        item: { type: ItemTypes.figure, figureType: type },
         collect: monitor => ({
-            isDragging: !!monitor.isDragging()
+            isDragging: !!monitor.isDragging(),
+            didDrop: monitor.didDrop()
         }),
         begin: monitor => {
             const offset = monitor.getSourceClientOffset();
@@ -33,6 +33,18 @@ const ToolbarButton = ({ type, store }) => {
             );
 
             store.setDragging(new elementsMap[type](initCoord));
+        },
+        end: (item, monitor) => {
+          const dropResult = monitor.getDropResult();
+          const element = store.draggingElem;
+
+            if (dropResult.coord) {
+                element.coord = dropResult.coord;
+
+                if (element.type === RECT) element.size = { width: 100, height: 80 };
+
+                store.addElement(element);
+            }
         }
     });
 

@@ -14,7 +14,7 @@ const StyledCounter = styled.div`
 
 const ElementsCounter = ({ store }) => (
     <StyledCounter>
-        <Observer render={() => <span>{store.elementsCount}</span>} />
+      <Observer render={() => <span>{store.elementsCount}</span>} />
     </StyledCounter>
 );
 

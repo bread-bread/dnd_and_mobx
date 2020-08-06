@@ -1,4 +1,4 @@
-import { observable, action, computed, autorun, when, reaction } from "mobx";
+import { observable, action, computed, autorun, when, reaction, decorate } from "mobx";
 
 class ElementsStore {
     @observable elements = [];
@@ -6,7 +6,7 @@ class ElementsStore {
     @observable draggingElem = null;
 
     constructor() {
-        const disposer = autorun(() => {
+        this.disposer = autorun(() => {
             if (this.draggingElem) console.log('%c%s', 'color: grey; font: 1.2rem/1 Tahoma;', `autorun-type: ${this.draggingElem.type}`);
         });
 
